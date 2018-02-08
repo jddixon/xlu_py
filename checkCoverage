@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+if [ ! -z "${DEV_BASE// }" ]
+then
+  # xlu_py/checkCoverage
+  
+  # see coverage.readthedocs.io/en/latestt/config.html
+  #
+  nosetests     --with-coverage --cover-html     --cover-tests     --cover-erase     --cover-branches     --cover-inclusive      --cover-package=buildlist       tests/test*.py
+else
+  echo "DEV_BASE is not defined"
+fi

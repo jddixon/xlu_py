@@ -1,0 +1,114 @@
+#!/usr/bin/python3
+
+# ~/dev/py/xlu_py/src/u_stats
+
+"""
+Uses xlu.stats.collect_stats, which uses scandir() instead
+of listdir().
+"""
+
+import os
+import sys
+from argparse import ArgumentParser
+
+from optionz import dump_options
+from xlu import (__version__, __version_date__)
+from xlu.stats import collect_stats
+from xlue.u import UDir
+
+
+def do_run(options):
+
+    u_path = options.u_path
+    out_path = options.out_path
+    verbose = options.verbose
+
+    # XXX options.out_path currently ignored
+
+    # returns a UStats object
+    stats = collect_stats(u_path, out_path, verbose)
+
+    print("statistics for %s" % u_path)
+    print("  dirStruc:           %10s" % stats.dir_struc.name)
+    print("  hashtype:           %10s" % stats.hashtype)
+    print()
+    print("  subDirectories:     %10d" % stats.subdir_count)
+    print("  subSubDirectories:  %10d" % stats.sub_subdir_count)
+    print("  leaf files:         %10d" % stats.leaf_count)
+    print("  odd files:          %10d" % stats.odd_count)
+
+    if stats.min_leaf_bytes != sys.maxsize:
+        print("  smallest leaf file: %10d" % stats.min_leaf_bytes)
+    print("  largest leaf file:  %10d" % stats.max_leaf_bytes)
+    print("  biggest leaf count: %10d" % stats.biggest_leaf_count)
+    print("  path to biggest:    %10s" % stats.path_to_biggest_leaf_count)
+
+    if stats.has_l:
+        print("  L present")
+    if stats.has_node_id:
+        print("  nodeID present")
+
+    if verbose:
+        if stats.unexpected_at_top:
+            print("\nunexpected at top (%d)" % len(stats.unexpected_at_top))
+            for xxx in stats.unexpected_at_top:
+                print("  %s" % xxx)
+    else:
+        print("  unexpected at top:  %10d" % len(stats.unexpected_at_top))
+
+
+def main():
+
+    # program defaults ----------------------------------------------
+
+    # parse the command line ----------------------------------------
+    desc = 'display statistical information on content-keyed directory at u_path'
+    parser = ArgumentParser(description=desc)
+
+    parser.add_argument('-j', '--just_show', action='store_true',
+                        help='show options and exit')
+
+    parser.add_argument('-o', '--out_path', type=str,
+                        help='destination directory')
+
+    parser.add_argument('-u', '--u_path', default='/var/U',
+                        help="source U directory (default=/var/U) ")
+
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='be chatty')
+
+    args = parser.parse_args()
+
+    # fixups --------------------------------------------------------
+
+    # sanity checks -------------------------------------------------
+
+    if not args.u_path or not os.path.exists(args.u_path):
+        print("input directory '%s' does not exist" % args.u_path)
+        parser.print_help()
+        sys.exit(1)
+
+    if args.out_path and not os.path.exists(args.out_path):
+        print("output directory '%s' does not exist" % args.out_path)
+        parser.print_help()
+        sys.exit(1)
+
+    # complete setup ------------------------------------------------
+    app_name = 'uStats %s' % __version__
+
+    # maybe show options and such -----------------------------------
+    if args.verbose or args.just_show:
+        print("%s %s" % (app_name, __version_date__))
+
+    if args.verbose or args.just_show:
+        print(dump_options(args))
+
+    if args.just_show:
+        sys.exit(0)
+
+    # do what's required --------------------------------------------
+    do_run(args)
+
+
+if __name__ == '__main__':
+    main()

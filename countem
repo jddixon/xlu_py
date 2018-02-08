@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+if [ ! -z "${DEV_BASE// }" ]
+then
+  cd $DEV_BASE/py/xlu_py
+  
+  rm -rf build/* myData/* myU1/* myU2/* tmp/* 
+  
+  pySloc -L py  -X cover -X htmlcov -X dist -v $@ \
+      src/xlu src/xlu/stats.py \
+      src/gen_node_id src/u_consolidate src/u_preen src/u_re_struc \
+      src/u_stats src/verify_content_keys \
+      tox.ini requirements.txt test_requirements.txt \
+      tests/test_u.py tests/test_u_lock.py tests/test_u_re_struc.py \
+      tests/test_u_stats.py setup.py
+else
+  echo "DEV_BASE is not defined"
+fi

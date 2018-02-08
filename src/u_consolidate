@@ -1,0 +1,176 @@
+#!/usr/bin/python3
+
+# ~/dev/py/xlattice_py/uConsolidate
+
+import shutil
+import stat
+import sys
+from argparse import ArgumentParser
+import os
+
+try:
+    from os import scandir
+except ImportError:
+    from scandir import scandir
+
+from optionz import dump_options
+from xlattice import (__version__, __version_date__)
+from xlattice.u import file_sha1hex
+
+
+def do_run(options):
+    dont_do_it = options.dont_do_it
+    in_dir = options.in_dir
+    max_count = options.max_count
+    out_dir = options.out_dir
+    verbose = options.verbose
+    writing = options.writing
+
+    os.makedirs(out_dir, exist_ok=True)
+    count = 0
+    for i in range(256):
+        sub_dir = "%s/%02x" % (in_dir, i)
+        if not os.path.exists(sub_dir):
+            continue
+        dest_sub_dir = "%s/%02x" % (out_dir, i)
+        os.makedirs(dest_sub_dir, exist_ok=True)
+        for j in range(256):
+            sub_sub_dir = "%s/%02x" % (sub_dir, j)
+            if not os.path.exists(sub_sub_dir):
+                continue
+            dest_sub_sub_dir = "%s/%02x" % (dest_sub_dir, i)
+            os.makedirs(dest_sub_sub_dir, exist_ok=True)
+            for entry in scandir(sub_sub_dir):
+                if entry.is_dir():
+                    print("directory found at leaf level! %s" % entry.path)
+                    continue
+                name = entry.name
+                count = count + 1
+                key = file_sha1hex(entry.path)
+                # what whould be the the normal case
+                if key == name:
+                    path_to_dest = os.path.join(dest_sub_sub_dir, name)
+                    if dont_do_it:
+                        print("would be moving\n\t%s to \n\t%s" % (
+                            entry.path, path_to_dest))
+                    else:
+                        # check write permission on source
+                        src_info = os.lstat(entry.path)
+                        src_mode = src_info[stat.ST_MODE]
+                        if (src_mode & stat.S_IWUSR) == 0:
+                            os.chmod(entry.path, 0o644)
+                        # check write permission on destination
+                        try:
+                            # doesn't follow links
+                            dest_info = os.lstat(path_to_dest)
+                        except FileNotFoundError:
+                            dest_info = None
+                        if dest_info:
+                            dest_mode = dest_info[stat.ST_MODE]
+                            if not dest_mode & stat.S_IWUSR:
+                                os.chmod(path_to_dest, 0o644)
+                                # DEBUG
+                                print("changed dest perms")
+                                # END
+                        shutil.move(entry.path, path_to_dest)
+                        # XXX COULD RESTORE srcMode HERE
+                        if verbose:
+                            print("moved\n\t%s to \n\t%s" % (
+                                entry.path, path_to_dest))
+                else:
+                    print("content hash is %s but file name is %s" % (
+                        key, name))
+
+                if count >= max_count:
+                    return
+
+
+def main():
+
+    # program defaults ----------------------------------------------
+
+    # parse the command line ----------------------------------------
+    desc = 'move valid files from input U subdirectory to output subdir'
+    parser = ArgumentParser(description=desc)
+
+    parser.add_argument('-b', '--base_dir', default="./",
+                        help='base directory holding U subdirectories')
+
+    parser.add_argument('-i', '--in_dir', type=str,
+                        help='source U directory')
+
+    parser.add_argument('-j', '--just_show', action='store_true',
+                        help='show options and exit')
+
+    parser.add_argument('-n', '--max_count', default='1',
+                        help='number of files to move; -1 = all of them')
+
+    parser.add_argument('-o', '--out_dir', default='Ue',
+                        help='destination U directory')
+
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='be chatty')
+
+    parser.add_argument('-w', '--writing', action='store_true',
+                        help='overwrite existing files')
+
+    parser.add_argument('-z', '--dont_do_it', action='store_true',
+                        help="don't do anything, just say what you would do")
+
+    args = parser.parse_args()
+
+    # fixups --------------------------------------------------------
+    if args.max_count == '-1':
+        args.max_count = sys.maxsize
+    else:
+        args.max_count = int(args.max_count)
+
+    # sanity checks -------------------------------------------------
+    if args.max_count <= 0:
+        print("number of files to move must be a positive number")
+        parser.print_help()
+        sys.exit(1)
+
+    if args.base_dir != './':
+        if not os.path.exists(args.base_dir):
+            print("base directory '%s' does not exist" % args.base_dir)
+            parser.print_help()
+            sys.exit(1)
+        os.chdir(args.base_dir)
+
+    if not args.in_dir or not os.path.exists(args.in_dir):
+        print("input directory '%s' does not exist" % args.in_dir)
+        parser.print_help()
+        sys.exit(1)
+
+    if not args.out_dir or not os.path.exists(args.out_dir):
+        print("output directory '%s' does not exist" % args.out_dir)
+        parser.print_help()
+        sys.exit(1)
+
+    # complete setup ------------------------------------------------
+    app_name = 'uConsolidate %s' % __version__
+
+    # maybe show options and such -----------------------------------
+    if args.verbose or args.just_show:
+        print("%s %s" % (app_name, __version_date__))
+
+    if args.verbose or args.just_show:
+        print(dump_options(args))
+
+    if args.just_show:
+        sys.exit(0)
+
+    # do what's required --------------------------------------------
+    do_run(args)
+
+    # gitMgr = GitMgr()           # acquire lock
+    # try:
+    #    doRun(args)
+    # except:
+    #    pass
+    # gitMgr.close()              # release lock
+
+
+if __name__ == '__main__':
+    main()
