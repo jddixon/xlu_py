@@ -12,9 +12,8 @@ import sys
 from argparse import ArgumentParser
 
 from optionz import dump_options
-from xlu import (__version__, __version_date__)
+from xlu import (__version__, __version_date__, UDir)
 from xlu.stats import collect_stats
-from xlue.u import UDir
 
 
 def do_run(options):

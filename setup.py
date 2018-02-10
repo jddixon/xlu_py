@@ -14,7 +14,7 @@ if exists('README.md'):
         LONG_DESC = file.read()
 
 setup(name='xlu_py',
-      version='1.10.3',
+      version='1.10.5',
       author='Jim Dixon',
       author_email='jddixon@gmail.com',
       long_description=LONG_DESC,

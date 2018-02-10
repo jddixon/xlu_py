@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# ~/dev/py/xlattice_py/xlattice/stats.py
+# ~/dev/py/xlu_py/src/stats.py
 
 import re
 import sys
@@ -11,7 +11,7 @@ except ImportError:
     from scandir import scandir
 
 from xlattice import check_hashtype, HashTypes
-from xlattice.u import DirStruc, UDir
+from xlu import DirStruc, UDir
 
 HEX2_PAT = '^[0-9a-fA-F][0-9a-fA-F]$'
 HEX2_RE = re.compile(HEX2_PAT)

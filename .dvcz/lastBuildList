@@ -1,0 +1,83 @@
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAl9xsFHvzEsi3G8q8dUOM
+3v4WLJefw8Kv0hHBGFPFQF1WRPldwPGNdVKql8zcO52KO4hzFNHNSBCGgH8cbtAk
+mLWB78ackABFJzhY9TEbPkLnoMXJHAXQpZK/JAudSixuAZIXYtIyBWfgLaHjurAT
+6+DBgC1oQXNrfT4Fvpe1QbHMejjGb41v/r/8ck/dWDr1YzcRFIbiJPj+sQq+X0Uy
+Giaje1YAJPNVBt3dlOA5lhBp4GpSYBskJ9UR2Zyt3lgAGK3dEwxYETLMh9VWEV8i
+k2lyCIE/V/CDb9eVDYQgYSJYrnQ/JAPST7NbcY8aI+/0l7QVBhLBpmOCvmS6ofvz
+/QIDAQAB
+-----END PUBLIC KEY-----
+xlu_py
+2018-02-10 23:52:01
+# BEGIN CONTENT #
+xlu_py
+ .dvcz
+  copyright.bak e161978d0050d9db41fc6740dcdf533fe31368fb
+  license.bak 5977a55c75bb4612004451a56b0b4c22d9d3311d
+  projCfg e6cbcd7baaf2b5a910cf2cde7682854440779e81
+  projCfg.local 891c7b3ad9ecdcf7f2ef979492888e973bce3fb8
+  projConfig.toml 02d796862075c89b26d0753e2f160a07a65ebb18
+ .gitignore 435674fb49fdec34b15f8578859300650c760f42
+ .wrapped e52a0c9b241acb92590ea75a593c09da5f84f88f
+ CHANGES 6c8492a47386bba24825b42551ed7f9355366d99
+ CHANGES.bak 7cd9b4a274164385e820ff2f33f7dbd3d0945be7
+ LICENSE-MIT.md d84b04f6a7e1041964d3763ed3ae0c6bda262fd1
+ MANIFEST.in ee87ecf6928c0c4c69376734eba9cf532ce748b1
+ README.md f2695e3da8ccf5f7a0ff556cd84f5ca32068517d
+ TODO 6b36e2537b8533d226c9c93d4321a57ac5ff5198
+ bkp2U 194fb4da8cb047da219e668811a817ce95ffd6fe
+ checkCoverage 5bbea63411325e8549b5d1138ca7f1e9a3935b7a
+ countem f20537a7e677fde4015129e0e402c90563cc33c5
+ dist
+  xlu_py-1.10.3-py3.6.egg e42dbb0f4de9fc5fd722d57d8c9361f36b3ee1e9
+  xlu_py-1.10.3.tar.gz 1d7e6fda6a53e7e053e4c1da5c92fb0d5b07bee5
+  xlu_py-1.10.4-py3.6.egg 746bdaf77d4489d3d6cff5acb9768746fdddcee1
+  xlu_py-1.10.4.tar.gz 605956731201a704279b8b9950e3b547695781bc
+  xlu_py-1.10.5-py3.6.egg c0855331ffc98141289668912de7dab9c5fe85cd
+  xlu_py-1.10.5.tar.gz a0e9b61ad59ce4b50d46690e3c265897faaf22b6
+ doPyLint 31321ad99eb3b9ac0928a68c29a8b5b88c9472fb
+ ghpDoc
+  index.md fa9b55d9792f0857144dec9ad50d293ae56a3b07
+ installit f9c2dcf4bb7ba3158cf086c9d05b12c663569f77
+ myData
+ myU1
+ requirements.txt 6f37c28314c289033787a9182d72261baf839519
+ setup.py 39d8f67c62dffab322cba4f2f9d8c390602065df
+ src
+  gen_node_id c3b76bee20ce2275b3fc71ca246cffa817d92aca
+  u_consolidate e9af458012ecdcc854c3fa1bdd282648acf51fb0
+  u_preen b1f208ad2ca7702814e183b66ce05405d5b8d4ab
+  u_re_struc 4587ee6291d64a984d8816c67d8a81c9a1b019ae
+  u_stats 404f8a89e80ac3690ef39ef1fc96f89d26730a36
+  verify_content_keys 9ebd5a181a636d1c3a1ad46f1e68e96e0edd50a8
+  xlu
+   __init__.py 37d2eb9b4d2e2f20fee0ba77b35956dcb3f61429
+   __init__.py.bak b51865beb083ad33956a0b3e7e3b63948d19228a
+   __pycache__
+    __init__.cpython-36.pyc 0d50f9b513a28058bb06d80fab1f811bbdd54076
+    stats.cpython-36.pyc 7b7fbc174943d21ec2fd777a2567affe0828062e
+   stats.py bfce9f86ae50f4e9a300d21ef7c6b567f49213ee
+  xlu_py.egg-info
+   PKG-INFO 96ebc0fb4578768bda0a6c7b4a58e176a11ce9a7
+   SOURCES.txt 8df193f055469a3e839f4146219a6c6f39c6bf13
+   dependency_links.txt adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+   not-zip-safe adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+   top_level.txt ea1e5887dd3b2f332f9cfc442a681e05659f866e
+ styleit df39ec6c67573298349fd534646264c5492934af
+ test.all 9788e06e43d6f9268dfdb01aad17c6c587c6199f
+ test_requirements.txt d4994d0b93aa60ecbc9e9a1f1888230d62df9cb4
+ tests
+  __pycache__
+   test_u.cpython-36-PYTEST.pyc 783aa388bdc428bacbf56930498df14a209521a4
+   test_u_lock.cpython-36-PYTEST.pyc ed84a6ade944842e4b3d05fcd3f1b5077e4ce950
+   test_u_re_struc.cpython-36-PYTEST.pyc 8025ad1785265c8003b4b9aaaf133173a8fe4aa8
+   test_u_stats.cpython-36-PYTEST.pyc 4f00b73a02261203dc8da7ab930cc00e6efe69a0
+  test_u.py c2a5f4b4a57c6ea997d3775b0d4d653d960d07e3
+  test_u_lock.py 545d9ddc3d1f884aaa8b3e1f4fde61508d145724
+  test_u_re_struc.py 7b3c299b2bf4c74ada0365359bdb2b693a5a40b8
+  test_u_stats.py a96b17820ddd8a3d28855839ca040343b2797cb1
+ tmp
+ tox.ini 4ed6698b54c053951a1a4e2a7651aa5cbe973fb7
+# END CONTENT #
+
+KLGS47aWEucryX2Y3q2VWS63TGUBw9UX7RP/qF7hen2s8sMNVDcF1xarkF5nidOw6eFHajgGDN3FXawRMLGmcmQocaHS5+NxAJmw2Jbl6KjcumdlnAAtRyNuKMyVc2Sk8rPQl6yrfFAwivpvU2QaA9Pt2pzXIEK4X5zpMs0rZIVUZ0QQnTzjDzD8ktucVqQWtaOvuk9uvUO1kAozA3PqzF5mFzwFoSb68OMIRAqXA9pQ4hiQtaiImR+TUg1p1GbjoyqcAuE5JwDZ7AHDtpEL3ebUnazSbSO3ZvR7Qbwwcd97Zw3YZ4bvhQZLnPP6x5/l+wB4FsfAftCkPgFHGK8lEA==

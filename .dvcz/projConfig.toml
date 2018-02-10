@@ -1,0 +1,29 @@
+[meta]
+version = "0.1.0"
+
+[project]
+name = "xlu_py"
+package = "xlu"
+main_lang = "py"
+version = "1.10.5"
+version_date = "2018-02-10"
+author = "Jim Dixon"
+author_email = "jdd@gmail.com"
+description = "content-keyed directory structure code"
+copyright = "2015-2018"
+dev_status = "beta"
+license = "mit"
+relpath = "py/xlu_py"
+state = "shared"
+url = "https://jddixon.github.io/xlu_py"
+
+[py]
+packages = [ "xlu",]
+package_dir = [ "src",]
+test_dir = "tests"
+py_modules = []
+scripts = [ "src/gen_node_id", "src/u_consolidate", "src/u_preen", "src/u_re_struc", "src/u_stats", "src/verify_content_keys",]
+ext_modules = []
+distshare = [ "merkletree", "nlhtree_py", "optionz", "rnglib", "xlattice_py",]
+requirements = [ "pycrypt", "scandir", "setuptools",]
+test_requirements = [ "pysha3",]

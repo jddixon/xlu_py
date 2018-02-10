@@ -33,18 +33,18 @@ if sys.version_info < (3, 6):
 
 __all__ = ['__version__', '__version_date__',
 
-    # classes
-    'UDir', 'ULock',
-    'XLUError',
+           # classes
+           'UDir', 'ULock',
+           'XLUError',
 
-    # functions
-    'file_sha1bin', 'file_sha1hex',
-    'file_sha2bin', 'file_sha2hex',
-    'file_sha3bin', 'file_sha3hex',
-    'file_blake2b_bin', 'file_blake2b_hex', ]
+           # functions
+           'file_sha1bin', 'file_sha1hex',
+           'file_sha2bin', 'file_sha2hex',
+           'file_sha3bin', 'file_sha3hex',
+           'file_blake2b_bin', 'file_blake2b_hex', ]
 
-__version__ = '1.10.3'
-__version_date__ = '2018-01-24'
+__version__ = '1.10.5'
+__version_date__ = '2018-02-10'
 
 # == HACKS ==========================================================
 

@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# ~/dev/py/xlattice_py/verifyContentKeys
+# ~/dev/py/xlu_py/src/verifyContentKeys
 
 import re
 import time
@@ -14,15 +14,18 @@ except ImportError:
     from scandir import scandir
 
 from optionz import dump_options
-from xlattice import (__version__, __version_date__, HashTypes, check_hashtype,
+from xlattice import (HashTypes, check_hashtype,
                       u, parse_hashtype_etc, fix_hashtype,
                       show_hashtype_etc, check_u_path)
+from xlu import(__version__, __version_date__,
+                file_sha1hex, file_sha2hex, file_sha3hex, file_blake2b_hex,
+                ULock)
 
 # PATs AND REs ######################################################
 DIR_NAME_PAT = '^[0-9a-fA-F]{2}$'
 DIR_NAME_RE = re.compile(DIR_NAME_PAT)
 
-# the default SHA2 or SHA3-based file name
+# the default 256-bit (SHA2, SHA3, BLAKE2B-based) file name
 FILE_NAME_PAT256 = '^[0-9a-fA-F]{64}$'
 
 # the SHA1-based alternative
@@ -35,11 +38,16 @@ def do_leaf_dir(args, sub_sub):
         if entry.is_file() and args.file_name_regex.match(entry.name):
             count += 1
             if args.hashtype == HashTypes.SHA1:
-                hash_as_hex = u.file_sha1hex(entry.path)
+                hash_as_hex = file_sha1hex(entry.path)
             elif args.hashtype == HashTypes.SHA2:
-                hash_as_hex = u.file_sha2hex(entry.path)
+                hash_as_hex = file_sha2hex(entry.path)
             elif args.hashtype == HashTypes.SHA3:
-                hash_as_hex = u.file_sha3hex(entry.path)
+                hash_as_hex = file_sha3hex(entry.path)
+            elif args.hashtype == HashTypes.BLAKE2B:
+                hash_as_hex = file_blake2b_hex(entry.path)
+            else:
+                raise NotImplementedError(args.hashtype.name)
+
             if args.verbose:
                 print('      ' + entry.path)
             if hash_as_hex != entry.name:
@@ -148,7 +156,7 @@ def main():
         print(dump_options(args))
 
     if not args.just_show:
-        lock = u.ULock(args.u_path)
+        lock = ULock(args.u_path)
         try:
             if lock.get_lock():
                 if args.verbose:

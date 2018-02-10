@@ -1,5 +1,9 @@
 ~/dev/py/xlu_py/TODO
 
+2018-02-10
+    * gen_node_id etc should use xlcrypto and not hashlib directly  
+    * u_consolidate should support SHA2, SHA3, BLAKE2B
+
 2018-02-08
     * imports from xlattice_py changed to xlu_py 
 

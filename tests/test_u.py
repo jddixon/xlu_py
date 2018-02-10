@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# xlattice_py/testU.py
+# xlu/tests/test_u.py
 
 """ Test U and UDir functionality. """
 
@@ -10,9 +10,9 @@ import unittest
 # from enum import IntEnum
 
 from xlattice import HashTypes
-from xlattice.u import (DirStruc, UDir,
-                        file_sha1hex, file_sha2hex, file_sha3hex,
-                        file_blake2b_hex)
+from xlu import (DirStruc, UDir,
+                 file_sha1hex, file_sha2hex, file_sha3hex,
+                 file_blake2b_hex)
 
 from rnglib import SimpleRNG
 
