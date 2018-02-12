@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# dev/py/xlattice_py/testUStats.py
+# dev/py/xlu_py/tests/test_u_stats.py
 
 """ Exercise statistical functions for content-keyed store. """
 
@@ -7,8 +7,8 @@ import sys
 import unittest
 from rnglib import SimpleRNG
 from xlattice import HashTypes
-from xlattice.stats import UStats
-from xlattice.u import DirStruc
+from xlu.stats import UStats
+from xlu import DirStruc
 
 
 class TestUStats(unittest.TestCase):

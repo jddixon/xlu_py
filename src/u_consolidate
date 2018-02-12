@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# ~/dev/py/xlattice_py/uConsolidate
+# ~/dev/py/xlu_py/src/u_consolidate
 
 import shutil
 import stat
@@ -14,8 +14,7 @@ except ImportError:
     from scandir import scandir
 
 from optionz import dump_options
-from xlattice import (__version__, __version_date__)
-from xlattice.u import file_sha1hex
+from xlu import (__version__, __version_date__, file_sha1hex)
 
 
 def do_run(options):

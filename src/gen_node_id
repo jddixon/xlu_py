@@ -21,10 +21,10 @@ from random import randint
 from argparse import ArgumentParser
 
 from optionz import dump_options
-from xlattice import(__version__, __version_date__, HashTypes,
+from xlattice import(HashTypes,
                      check_hashtype, fix_hashtype, parse_hashtype_etc)
 
-from xlattice.u import ULock
+from xlu import __version__, __version_date__, ULock
 
 if sys.version_info < (3, 6):
     # pylint: disable=unused-import
@@ -42,6 +42,9 @@ def get_node_id(options):
     elif hashtype == HashTypes.SHA3:
         # pylint: disable=no-member
         sha = hashlib.sha3_256()
+    else:
+        raise NotImplementedError("hashtype %s" % hashtype.name)
+
     sub_dir = "%s/%s" % (options.u_path, options.sub_dir)
     for root, _, files in os.walk(sub_dir):
         for name in files:

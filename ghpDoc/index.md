@@ -1,4 +1,4 @@
-# xlu_py
+<h1 class="libTop">xlu_py</h1>
 
 
 ## Command Line Utilities
@@ -121,7 +121,3 @@ The command `u_stats -h` returns:
 
 Pre-alpha.  Just split from xlattice_py as a separate project.
 
-## On-line Documentation
-
-More information on the **xlu_py** project can be found
-[here](https://jddixon.github.io/xlu_py)

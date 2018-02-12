@@ -1,15 +1,14 @@
 #!/usr/bin/python3
 
-# ~/dev/py/xlattice_py/uReStruc
+# ~/dev/py/xlu_py/u_re_struc
 
 import os
 import sys
 from argparse import ArgumentParser
 
 from optionz import dump_options
-from xlattice import (__version__, __version_date__)
-# from xlattice.stats import collect_stats
-from xlattice.u import UDir, DirStruc
+from xlu import (__version__, __version_date__, UDir, DirStruc)
+# from xlu.stats import collect_stats
 
 
 def re_struc_u_dir(u_path, new_struc, out_path="", verbose=False):
@@ -47,7 +46,7 @@ def main():
     args = parser.parse_args()
 
     # complete setup ------------------------------------------------
-    app_name = 'uReStruc %s' % __version__
+    app_name = 'u_re_struc %s' % __version__
     if args.verbose or args.just_show:
         print("%s %s" % (app_name, __version_date__))
 

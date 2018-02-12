@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# dev/py/xlattice_py/test_re_struc.py
+# dev/py/xlu_py/tests/test_re_struc.py
 
 """ Test restructing of content-keyed store. """
 
@@ -10,7 +10,7 @@ import unittest
 
 from rnglib import SimpleRNG
 from xlattice import HashTypes, check_hashtype
-from xlattice.u import UDir, DirStruc
+from xlu import UDir, DirStruc
 
 
 class TestReStruc(unittest.TestCase):
