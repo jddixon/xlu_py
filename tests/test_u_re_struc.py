@@ -3,13 +3,13 @@
 
 """ Test restructing of content-keyed store. """
 
-import hashlib
 import os
 import unittest
 # from binascii import hexlify
 
 from rnglib import SimpleRNG
 from xlattice import HashTypes, check_hashtype
+from xlcrypto.hash import XLSHA1, XLSHA2, XLSHA3, XLBLAKE2B_256
 from xlu import UDir, DirStruc
 
 
@@ -19,7 +19,7 @@ class TestReStruc(unittest.TestCase):
     def setUp(self):
         self.rng = SimpleRNG()
 
-    def make_values(self, hashtype=False, m__=1, n__=1, l__=1):
+    def make_values(self, hashtype=HashTypes.SHA2, m__=1, n__=1, l__=1):
         """
         Create at least m and then up to n more values of random length
         up to l (letter L) and compute their SHAx hashes.
@@ -51,12 +51,16 @@ class TestReStruc(unittest.TestCase):
             v__ = self.rng.some_bytes(count)       # that many random bytes
             values.append(v__)
             if hashtype == HashTypes.SHA1:
-                sha = hashlib.sha1()
+                sha = XLSHA1()
             elif hashtype == HashTypes.SHA2:
-                sha = hashlib.sha256()
+                sha = XLSHA2()
             elif hashtype == HashTypes.SHA3:
-                # pylint: disable=no-member
-                sha = hashlib.sha3_256()
+                sha = XLSHA3()
+            elif hashtype == HashTypes.BLAKE2B_256:
+                sha = XLBLAKE2B_256()
+            else:
+                raise NotImplementedError(hashtype.name)
+
             sha.update(v__)
             h__ = sha.hexdigest()
             # DEBUG

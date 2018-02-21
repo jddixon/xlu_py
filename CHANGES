@@ -1,5 +1,8 @@
 ~/dev/py/xlu_py/CHANGES
 
+v1.10.6
+    2018-02-21
+        * hashlib replaced by xlcrypto.hash                         SLOC 2143
 v1.10.5
     2018-02-10
         * imports from xlu instead of xlattice                      SLOC 2039
@@ -9,4 +12,5 @@ v1.10.4
 v0.0.0
     2015-05-07
         * oldest xlattice_py entry
+
 
