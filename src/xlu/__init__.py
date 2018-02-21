@@ -7,7 +7,6 @@ import re
 import shutil
 import sys
 import time
-import hashlib
 import os
 
 try:
@@ -23,13 +22,17 @@ from xlattice import(HashTypes, check_hashtype,
                      SHA1_BIN_LEN, SHA1_HEX_LEN,
                      SHA2_BIN_LEN, SHA2_HEX_LEN,
                      SHA3_BIN_LEN, SHA3_HEX_LEN,
-                     BLAKE2B_BIN_LEN, BLAKE2B_HEX_LEN,
-                     BLAKE2B_BIN_NONE, BLAKE2B_HEX_NONE)
+                     BLAKE2B_256_BIN_LEN, BLAKE2B_256_HEX_LEN,
+                     BLAKE2B_256_BIN_NONE, BLAKE2B_256_HEX_NONE)
 
+from xlcrypto.hash import XLSHA1, XLSHA2, XLSHA3, XLBLAKE2B_256
 
-if sys.version_info < (3, 6):
-    import sha3         # monkey-patches hashlib
-    assert sha3         # suppress warning
+# DROP ME ASAP ############################################
+# import hashlib
+# if sys.version_info < (3, 6):
+#     import sha3         # monkey-patches hashlib
+#     assert sha3         # suppress warning
+# END DROP ME #############################################
 
 __all__ = ['__version__', '__version_date__',
 
@@ -41,10 +44,14 @@ __all__ = ['__version__', '__version_date__',
            'file_sha1bin', 'file_sha1hex',
            'file_sha2bin', 'file_sha2hex',
            'file_sha3bin', 'file_sha3hex',
-           'file_blake2b_bin', 'file_blake2b_hex', ]
+           'file_blake2b_256_bin', 'file_blake2b_256_hex',
 
-__version__ = '1.10.5'
-__version_date__ = '2018-02-10'
+           # TEMPORARY HACK ###############################
+           'file_blake2b_bin', 'file_blake2b_hex', ]
+################################################
+
+__version__ = '1.10.6'
+__version_date__ = '2018-02-21'
 
 # == HACKS ==========================================================
 
@@ -58,7 +65,7 @@ def file_sha1bin(path):
     if path is None or not os.path.exists(path):
         return None
 
-    sha = hashlib.sha1()
+    sha = XLSHA1()
     file = io.FileIO(path, 'rb')
     reader = io.BufferedReader(file)
     while True:
@@ -74,7 +81,7 @@ def file_sha1hex(path):
     if path is None or not os.path.exists(path):
         return None
 
-    sha = hashlib.sha1()
+    sha = XLSHA1()
     file = io.FileIO(path, 'rb')
     reader = io.BufferedReader(file)
     while True:
@@ -90,7 +97,7 @@ def file_sha2bin(path):
     if path is None or not os.path.exists(path):
         return None
 
-    sha = hashlib.sha256()
+    sha = XLSHA2()
     file = io.FileIO(path, 'rb')
     reader = io.BufferedReader(file)
     while True:
@@ -106,7 +113,7 @@ def file_sha2hex(path):
     if path is None or not os.path.exists(path):
         return None
 
-    sha = hashlib.sha256()
+    sha = XLSHA2()
     file = io.FileIO(path, 'rb')
     reader = io.BufferedReader(file)
     while True:
@@ -122,7 +129,7 @@ def file_sha3bin(path):
     if path is None or not os.path.exists(path):
         return None
 
-    sha = hashlib.sha3_256()
+    sha = XLSHA3()
     file = io.FileIO(path, 'rb')
     reader = io.BufferedReader(file)
     while True:
@@ -138,7 +145,7 @@ def file_sha3hex(path):
     if path is None or not os.path.exists(path):
         return None
 
-    sha = hashlib.sha3_256()
+    sha = XLSHA3()
     file = io.FileIO(path, 'rb')
     reader = io.BufferedReader(file)
     while True:
@@ -150,11 +157,11 @@ def file_sha3hex(path):
     return sha.hexdigest()    # a string, of course!
 
 
-def file_blake2b_bin(path):
+def file_blake2b_256_bin(path):
     if path is None or not os.path.exists(path):
         return None
 
-    hash = hashlib.blake2b(digest_size=32)
+    hash = XLBLAKE2B_256()
     file = io.FileIO(path, 'rb')
     reader = io.BufferedReader(file)
     while True:
@@ -166,11 +173,11 @@ def file_blake2b_bin(path):
     return bytes(hash.digest())   # a binary value
 
 
-def file_blake2b_hex(path):
+def file_blake2b_256_hex(path):
     if path is None or not os.path.exists(path):
         return None
 
-    hash = hashlib.blake2b(digest_size=32)
+    hash = XLBLAKE2B_256()
     file = io.FileIO(path, 'rb')
     reader = io.BufferedReader(file)
     while True:
@@ -180,6 +187,12 @@ def file_blake2b_hex(path):
         hash.update(byte_str)
     reader.close()
     return hash.hexdigest()    # a string, of course!
+
+
+# TEMPORARY HACKS ###########
+file_blake2b_bin = file_blake2b_256_bin
+file_blake2b_hex = file_blake2b_256_hex
+# END HACKS #################
 
 # CLASSES ===========================================================
 
@@ -269,8 +282,8 @@ class UDir(object):
             none = SHA2_HEX_NONE
         elif hashtype == HashTypes.SHA3:
             none = SHA3_HEX_NONE
-        elif hashtype == HashTypes.BLAKE2B:
-            none = BLAKE2B_HEX_NONE
+        elif hashtype == HashTypes.BLAKE2B_256:
+            none = BLAKE2B_256_HEX_NONE
         else:
             raise NotImplementedError
         if dir_struc == DirStruc.DIR_FLAT:
@@ -304,8 +317,8 @@ class UDir(object):
             path_to_sig = self.get_path_for_key(SHA2_HEX_NONE)
         elif hashtype == HashTypes.SHA3:
             path_to_sig = self.get_path_for_key(SHA3_HEX_NONE)
-        elif hashtype == HashTypes.BLAKE2B:
-            path_to_sig = self.get_path_for_key(BLAKE2B_HEX_NONE)
+        elif hashtype == HashTypes.BLAKE2B_256:
+            path_to_sig = self.get_path_for_key(BLAKE2B_256_HEX_NONE)
         else:
             raise XLUError('unexpected HashTypes.SHAx value %d' % hashtype)
         sig_base = os.path.dirname(path_to_sig)
@@ -378,11 +391,11 @@ class UDir(object):
                     dir_struc = DirStruc.DIR_FLAT
                     hashtype = HashTypes.SHA3
             if not found:
-                flat_blake2b_path = os.path.join(u_path, BLAKE2B_HEX_NONE)
+                flat_blake2b_path = os.path.join(u_path, BLAKE2B_256_HEX_NONE)
                 if os.path.exists(flat_blake2b_path):
                     found = True
                     dir_struc = DirStruc.DIR_FLAT
-                    hashtype = HashTypes.BLAKE2B
+                    hashtype = HashTypes.BLAKE2B_256
 
             # check for 16x16 directory structure -------------------
             if not found:
@@ -414,13 +427,13 @@ class UDir(object):
                     hashtype = HashTypes.SHA3
             if not found:
                 dir16_blake2b_path = os.path.join(u_path,
-                                                  BLAKE2B_HEX_NONE[0],
-                                                  BLAKE2B_HEX_NONE[1],
-                                                  BLAKE2B_HEX_NONE)
+                                                  BLAKE2B_256_HEX_NONE[0],
+                                                  BLAKE2B_256_HEX_NONE[1],
+                                                  BLAKE2B_256_HEX_NONE)
                 if os.path.exists(dir16_blake2b_path):
                     found = True
                     dir_struc = DirStruc.DIR16x16
-                    hashtype = HashTypes.BLAKE2B
+                    hashtype = HashTypes.BLAKE2B_256
 
             # check for 256x256 directory structure -----------------
             if not found:
@@ -453,13 +466,13 @@ class UDir(object):
 
             if not found:
                 dir256_blake2b_path = os.path.join(u_path,
-                                                   BLAKE2B_HEX_NONE[0:2],
-                                                   BLAKE2B_HEX_NONE[2:4],
-                                                   BLAKE2B_HEX_NONE)
+                                                   BLAKE2B_256_HEX_NONE[0:2],
+                                                   BLAKE2B_256_HEX_NONE[2:4],
+                                                   BLAKE2B_256_HEX_NONE)
                 if os.path.exists(dir256_blake2b_path):
                     found = True
                     dir_struc = DirStruc.DIR256x256
-                    hashtype = HashTypes.BLAKE2B
+                    hashtype = HashTypes.BLAKE2B_256
 
         # if uDir does not already exist, this creates it
         obj = cls(u_path, dir_struc, hashtype, mode)
@@ -541,7 +554,8 @@ class UDir(object):
             err_msg = "UDir.put: expected key length 64, actual %d" % key_len
         elif self._hashtype == HashTypes.SHA3 and key_len != SHA3_HEX_LEN:
             err_msg = "UDir.put: expected key length 64, actual %d" % key_len
-        elif self._hashtype == HashTypes.BLAKE2B and key_len != BLAKE2B_HEX_LEN:
+        elif self._hashtype == HashTypes.BLAKE2B_256 and \
+                key_len != BLAKE2B_256_HEX_LEN:
             err_msg = "UDir.put: expected key length 64, actual %d" % key_len
         # XXX BAD USING OR LEN NOT ALLOWED FOR
         if err_msg:
@@ -553,8 +567,8 @@ class UDir(object):
             sha = file_sha2hex(in_file)
         elif self._hashtype == HashTypes.SHA3:
             sha = file_sha3hex(in_file)
-        elif self._hashtype == HashTypes.BLAKE2B:
-            sha = file_blake2b_hex(in_file)
+        elif self._hashtype == HashTypes.BLAKE2B_256:
+            sha = file_blake2b_256_hex(in_file)
         # XXX BAD USING OR LEN NOT ALLOWED FOR
         length = os.stat(in_file).st_size
 
@@ -585,13 +599,13 @@ class UDir(object):
 
     def put_data(self, data, key):
         if self._hashtype == HashTypes.SHA1:
-            sha = hashlib.sha1()
+            sha = XLSHA1()
         elif self._hashtype == HashTypes.SHA2:
-            sha = hashlib.sha256()
+            sha = XLSHA2()
         elif self._hashtype == HashTypes.SHA3:
-            sha = hashlib.sha3_256()
-        elif self._hashtype == HashTypes.BLAKE2B:
-            sha = hashlib.blake2b(digest_size=32)
+            sha = XLSHA3()
+        elif self._hashtype == HashTypes.BLAKE2B_256:
+            sha = XLBLAKE2B_256()
         else:
             raise NotImplementedError
         sha.update(data)
@@ -713,7 +727,7 @@ class UDir(object):
                     match = self.HEX_FILE_NAME_1_RE.match(key)
                 elif self._hashtype == HashTypes.SHA2 or \
                         self._hashtype == HashTypes.SHA3 or \
-                        self._hashtype == HashTypes.BLAKE2B:
+                        self._hashtype == HashTypes.BLAKE2B_256:
                     match = self.HEX_FILE_NAME_2_RE.match(key)
                 if match:
                     # DEBUG
@@ -759,7 +773,7 @@ class UDir(object):
                                     match = self.HEX_FILE_NAME_1_RE.match(key)
                                 elif self._hashtype == HashTypes.SHA2 or \
                                         self._hashtype == HashTypes.SHA3 or \
-                                        self._hashtype == HashTypes.BLAKE2B:
+                                        self._hashtype == HashTypes.BLAKE2B_256:
                                     match = self.HEX_FILE_NAME_2_RE.match(key)
                                 if match:
                                     # DEBUG

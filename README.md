@@ -1,12 +1,33 @@
 # xlu_py
 
-
 ## Command Line Utilities
 
 At this time all of these are intended for use in managing the
 content-keyed data store.  Conventioally this is in a directory called
 `U/` or `uDir/`.  The path to the store is `u_path` and the object used
-to manage the store is `u_dir`.
+to manage the store is `UDir`.
+
+### gen_node
+
+    usage: gen_node_id [-h] [-j] [-o OUT_PATH] [-s SUB_DIR] [-1] [-2] [-3] [-B]
+                       [-u U_PATH] [-v]
+
+    generate a quasi-random node ID for U based on contents of a subdirectory
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -j, --just_show       show options and exit
+      -o OUT_PATH, --out_path OUT_PATH
+                            destination directory
+      -s SUB_DIR, --sub_dir SUB_DIR
+                            subdirectory to use for hashing (00 through ff)
+      -1, --using_sha1      using the 160-bit SHA1 hash
+      -2, --using_sha2      using the 256-bit SHA2 (SHA256) hash
+      -3, --using_sha3      using the 256-bit SHA3 (Keccak-256) hash
+      -B, --using_blake2b   using the 256-bit BLAKE2B hash
+      -u U_PATH, --u_path U_PATH
+                            path to uDir
+      -v, --verbose         be chatty
 
 ### u_consolidate
 
@@ -50,8 +71,7 @@ to manage the store is `u_dir`.
 
     usage: u_re_struc [-h] [-j] [-o OUT_PATH] [-s NEW_STRUC_NAME] [-u U_PATH] [-v]
 
-    modify directory structure for uDir; this is a low-level operation which does
-    not alter L
+    modify directory structure for uDir; low-level op, does not alter L
 
     optional arguments:
       -h, --help            show this help message and exit
@@ -59,7 +79,8 @@ to manage the store is `u_dir`.
       -o OUT_PATH, --out_path OUT_PATH
                             optional destination directory
       -s NEW_STRUC_NAME, --new_struc_name NEW_STRUC_NAME
-                            new dirStruc (DIR_FLAT, DIR16x16, or DIR256x256
+                            new dirStruc, one of ['DIR_FLAT', 'DIR16x16',
+                            'DIR256x256']
       -u U_PATH, --u_path U_PATH
                             path to uDir (no default)
       -v, --verbose         be chatty
@@ -100,8 +121,8 @@ The command `u_stats -h` returns:
 
 ### verify_content
 
-    usage: verify_content_keys [-h] [-j] [-t] [-T] [-V] [-1] [-2] [-3] [-u U_PATH]
-                               [-v]
+    usage: verify_content_keys [-h] [-j] [-t] [-T] [-V] [-1] [-2] [-3] [-B]
+                               [-u U_PATH] [-v]
 
     optional arguments:
       -h, --help            show this help message and exit
@@ -112,6 +133,7 @@ The command `u_stats -h` returns:
       -1, --using_sha1      using the 160-bit SHA1 hash
       -2, --using_sha2      using the 256-bit SHA2 (SHA256) hash
       -3, --using_sha3      using the 256-bit SHA3 (Keccak-256) hash
+      -B, --using_blake2b   using the 256-bit BLAKE2B hash
       -u U_PATH, --u_path U_PATH
                             path to uDir
       -v, --verbose         be chatty
