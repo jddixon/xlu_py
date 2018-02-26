@@ -1,2 +1,4 @@
 # xlu_py/requirements.txt
-
+scandir
+setuptools
+pysha3
