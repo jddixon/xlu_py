@@ -1,5 +1,8 @@
 ~/dev/py/xlu_py/CHANGES
 
+v1.10.7
+    2018-02-26
+        * fix setup.py, tox config files                            SLOC 2119
 v1.10.6
     2018-02-21
         * hashlib replaced by xlcrypto.hash                         SLOC 2143
@@ -12,5 +15,6 @@ v1.10.4
 v0.0.0
     2015-05-07
         * oldest xlattice_py entry
+
 
 
